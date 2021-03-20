@@ -1,0 +1,454 @@
+                        BINE ATI VENIT!
+
+                Comenzile acestui program sunt:
+
+        -ADD pentru a adauga un polinom
+        -DELETE pentru a sterge un polinom
+        -SUM pentru a insuma doua polinoame
+        -SUM REPLACE pentru a insuma doua polinoame si a memora rezultatul in primul polinom
+        -SUB pentru a scadea doua polinoame
+        -PROD pentru a inmulti doua polinoame
+        -VALUE pentru a calcula valoarea polinomului intr-un punct
+        -DUPLICATE pentru a sterge toate polinoamele care sunt duplicate in cadrul listei de polinoame
+        -TOTAL pentru a afisa toate polinoamele introduse pana acum
+        -NUMAR pentru a afisa doar numarul de polinoame introduse pana acum
+        -GRAD pentru a afisa gradul unui polinom adaugat
+        -EGALE pentru a afisa daca doua polinoame adaugate sunt egale sau nu
+        -STOP pentru a opri programul
+
+
+Tastati Comanda: ADD
+
+Scrieti gradul polinomului: 2
+Scrieti coeficientii polinomului incepand cu termenul liber si pana la termenul de gradul 2: 1 1 1
+Felicitari! Polinomul a fost adaugat cu succes.
+
+Tastati Comanda: ADD
+
+Scrieti gradul polinomului: 1
+Scrieti coeficientii polinomului incepand cu termenul liber si pana la termenul de gradul 1: 2 4
+Felicitari! Polinomul a fost adaugat cu succes.
+
+Tastati Comanda: ADD
+
+Scrieti gradul polinomului: 3
+Scrieti coeficientii polinomului incepand cu termenul liber si pana la termenul de gradul 3: 1 1 1 0
+Felicitari! Polinomul a fost adaugat cu succes.
+
+Tastati Comanda: ADD
+
+Scrieti gradul polinomului: 6
+Scrieti coeficientii polinomului incepand cu termenul liber si pana la termenul de gradul 6: 15 30 0 6 0 9 -15
+Felicitari! Polinomul a fost adaugat cu succes.
+
+Tastati Comanda: SUM
+
+Selectati doua polinoame dintre cele de mai jos folosind indicii asociati:
+
+1. X^2 + X + 1
+2. 4X + 2
+3. X^2 + X + 1
+4. - 15X^6 + 9X^5 + 6X^3 + 30X + 15
+
+(Pentru a selecta polinoamele de mai sus, tastati indicii asociati polinoamelor pe rand, in ordinea in care doriti sa efectuati operatia aleasa)
+
+Indicii tastati de catre dumneavoastra sunt: 2 4
+
+Suma dintre polinomul 4X + 2 si polinomul - 15X^6 + 9X^5 + 6X^3 + 30X + 15 este: - 15X^6 + 9X^5 + 6X^3 + 34X + 17
+
+Doriti sa adaugati aceasta suma ca fiind un nou polinom?(Tastati "DA" sau "NU") DA
+
+Felicitari! Ati adaugat aceasta suma cu succes!
+
+
+Tastati Comanda: ADD
+
+Scrieti gradul polinomului: 2
+Scrieti coeficientii polinomului incepand cu termenul liber si pana la termenul de gradul 2: 1 1 1
+Felicitari! Polinomul a fost adaugat cu succes.
+
+Tastati Comanda: ADD
+
+Scrieti gradul polinomului: 5
+Scrieti coeficientii polinomului incepand cu termenul liber si pana la termenul de gradul 5: 17 0 0 0 0 0
+Felicitari! Polinomul a fost adaugat cu succes.
+
+Tastati Comanda: ADD
+
+Scrieti gradul polinomului: 1
+Scrieti coeficientii polinomului incepand cu termenul liber si pana la termenul de gradul 1: 2 4
+Felicitari! Polinomul a fost adaugat cu succes.
+
+Tastati Comanda: ADD
+
+Scrieti gradul polinomului: 5
+Scrieti coeficientii polinomului incepand cu termenul liber si pana la termenul de gradul 5: 101 0 0 0 0 5
+Felicitari! Polinomul a fost adaugat cu succes.
+
+Tastati Comanda: ADD
+
+Scrieti gradul polinomului: 10
+Scrieti coeficientii polinomului incepand cu termenul liber si pana la termenul de gradul 10: 0 0 0 0 0 0 0 0 0 0 0
+Felicitari! Polinomul a fost adaugat cu succes.
+
+Tastati Comanda: SUM
+
+Selectati doua polinoame dintre cele de mai jos folosind indicii asociati:
+
+1. X^2 + X + 1
+2. 4X + 2
+3. X^2 + X + 1
+4. - 15X^6 + 9X^5 + 6X^3 + 30X + 15
+5. - 15X^6 + 9X^5 + 6X^3 + 34X + 17
+6. X^2 + X + 1
+7. 17
+8. 4X + 2
+9. 5X^5 + 101
+10. 0
+
+(Pentru a selecta polinoamele de mai sus, tastati indicii asociati polinoamelor pe rand, in ordinea in care doriti sa efectuati operatia aleasa)
+
+Indicii tastati de catre dumneavoastra sunt: 1 9
+
+Suma dintre polinomul X^2 + X + 1 si polinomul 5X^5 + 101 este: 5X^5 + X^2 + X + 102
+
+Doriti sa adaugati aceasta suma ca fiind un nou polinom?(Tastati "DA" sau "NU") DA
+
+Felicitari! Ati adaugat aceasta suma cu succes!
+
+
+Tastati Comanda: SUM
+
+Selectati doua polinoame dintre cele de mai jos folosind indicii asociati:
+
+1. X^2 + X + 1
+2. 4X + 2
+3. X^2 + X + 1
+4. - 15X^6 + 9X^5 + 6X^3 + 30X + 15
+5. - 15X^6 + 9X^5 + 6X^3 + 34X + 17
+6. X^2 + X + 1
+7. 17
+8. 4X + 2
+9. 5X^5 + 101
+10. 0
+11. 5X^5 + X^2 + X + 102
+
+(Pentru a selecta polinoamele de mai sus, tastati indicii asociati polinoamelor pe rand, in ordinea in care doriti sa efectuati operatia aleasa)
+
+Indicii tastati de catre dumneavoastra sunt: 1 9
+
+Suma dintre polinomul X^2 + X + 1 si polinomul 5X^5 + 101 este: 5X^5 + X^2 + X + 102
+
+Doriti sa adaugati aceasta suma ca fiind un nou polinom?(Tastati "DA" sau "NU") DA
+
+Felicitari! Ati adaugat aceasta suma cu succes!
+
+
+Tastati Comanda: SUM
+
+Selectati doua polinoame dintre cele de mai jos folosind indicii asociati:
+
+1. X^2 + X + 1
+2. 4X + 2
+3. X^2 + X + 1
+4. - 15X^6 + 9X^5 + 6X^3 + 30X + 15
+5. - 15X^6 + 9X^5 + 6X^3 + 34X + 17
+6. X^2 + X + 1
+7. 17
+8. 4X + 2
+9. 5X^5 + 101
+10. 0
+11. 5X^5 + X^2 + X + 102
+12. 5X^5 + X^2 + X + 102
+
+(Pentru a selecta polinoamele de mai sus, tastati indicii asociati polinoamelor pe rand, in ordinea in care doriti sa efectuati operatia aleasa)
+
+Indicii tastati de catre dumneavoastra sunt: 1 9
+
+Suma dintre polinomul X^2 + X + 1 si polinomul 5X^5 + 101 este: 5X^5 + X^2 + X + 102
+
+Doriti sa adaugati aceasta suma ca fiind un nou polinom?(Tastati "DA" sau "NU") DA
+
+Felicitari! Ati adaugat aceasta suma cu succes!
+
+
+Tastati Comanda: ADD
+
+Scrieti gradul polinomului: 0
+Scrieti coeficientii polinomului incepand cu termenul liber si pana la termenul de gradul 0: 0
+Felicitari! Polinomul a fost adaugat cu succes.
+
+Tastati Comanda: ADD
+
+Scrieti gradul polinomului: 3
+Scrieti coeficientii polinomului incepand cu termenul liber si pana la termenul de gradul 3: 5 6 17 8
+Felicitari! Polinomul a fost adaugat cu succes.
+
+Tastati Comanda: ADD
+
+Scrieti gradul polinomului: 3
+Scrieti coeficientii polinomului incepand cu termenul liber si pana la termenul de gradul 3: 17 0 0 0
+Felicitari! Polinomul a fost adaugat cu succes.
+
+Tastati Comanda: ADD
+
+Scrieti gradul polinomului: 2
+Scrieti coeficientii polinomului incepand cu termenul liber si pana la termenul de gradul 2: 1 1 1
+Felicitari! Polinomul a fost adaugat cu succes.
+
+Tastati Comanda: TOTAL
+
+1. X^2 + X + 1
+2. 4X + 2
+3. X^2 + X + 1
+4. - 15X^6 + 9X^5 + 6X^3 + 30X + 15
+5. - 15X^6 + 9X^5 + 6X^3 + 34X + 17
+6. X^2 + X + 1
+7. 17
+8. 4X + 2
+9. 5X^5 + 101
+10. 0
+11. 5X^5 + X^2 + X + 102
+12. 5X^5 + X^2 + X + 102
+13. 5X^5 + X^2 + X + 102
+14. 0
+15. 8X^3 + 17X^2 + 6X + 5
+16. 17
+17. X^2 + X + 1
+
+Tastati Comanda: DUPLICATE
+
+
+Doriti sa pastrati polinoamele care au duplicate si doar sa stergeti restul copiilor sau doriti sa le stergeti si pe ele inclusiv? (Tastati "DA" sau "NU") DA
+
+
+
+Toate duplicatele din lista au fost sterse. Lista dumneavoastra acum arata asa:
+
+1. X^2 + X + 1
+2. 4X + 2
+3. - 15X^6 + 9X^5 + 6X^3 + 30X + 15
+4. - 15X^6 + 9X^5 + 6X^3 + 34X + 17
+5. 17
+6. 5X^5 + 101
+7. 0
+8. 5X^5 + X^2 + X + 102
+9. 8X^3 + 17X^2 + 6X + 5
+
+Tastati Comanda: DELETE
+
+Selectati polinomul dorit folosind indicele asociat:
+
+1. X^2 + X + 1
+2. 4X + 2
+3. - 15X^6 + 9X^5 + 6X^3 + 30X + 15
+4. - 15X^6 + 9X^5 + 6X^3 + 34X + 17
+5. 17
+6. 5X^5 + 101
+7. 0
+8. 5X^5 + X^2 + X + 102
+9. 8X^3 + 17X^2 + 6X + 5
+
+(Pentru a selecta unul dintre polinoamele de mai sus, tastati unul dintre indicii asociati polinoamelor)
+
+Indicele tastat de dumneavoastra este: 4
+
+Felicitari! Polinomul a fost sters cu succes.
+
+Tastati Comanda: SUM REPLACE
+
+Selectati doua polinoame dintre cele de mai jos folosind indicii asociati:
+
+1. X^2 + X + 1
+2. 4X + 2
+3. - 15X^6 + 9X^5 + 6X^3 + 30X + 15
+4. 17
+5. 5X^5 + 101
+6. 0
+7. 5X^5 + X^2 + X + 102
+8. 8X^3 + 17X^2 + 6X + 5
+
+(Pentru a selecta polinoamele de mai sus, tastati indicii asociati polinoamelor pe rand, in ordinea in care doriti sa efectuati operatia aleasa)
+
+Indicii tastati de catre dumneavoastra sunt: 6 1
+
+Suma dintre polinomul 0 si polinomul X^2 + X + 1 este: X^2 + X + 1
+
+
+Tastati Comanda: EGALE
+
+Selectati doua polinoame dintre cele de mai jos folosind indicii asociati:
+
+1. X^2 + X + 1
+2. 4X + 2
+3. - 15X^6 + 9X^5 + 6X^3 + 30X + 15
+4. 17
+5. 5X^5 + 101
+6. X^2 + X + 1
+7. 5X^5 + X^2 + X + 102
+8. 8X^3 + 17X^2 + 6X + 5
+
+(Pentru a selecta polinoamele de mai sus, tastati indicii asociati polinoamelor pe rand, in ordinea in care doriti sa efectuati operatia aleasa)
+
+Indicii tastati de catre dumneavoastra sunt: 6 1
+
+Polinomul X^2 + X + 1 este egal cu polinomul X^2 + X + 1
+
+
+Tastati Comanda: EGALE
+
+Selectati doua polinoame dintre cele de mai jos folosind indicii asociati:
+
+1. X^2 + X + 1
+2. 4X + 2
+3. - 15X^6 + 9X^5 + 6X^3 + 30X + 15
+4. 17
+5. 5X^5 + 101
+6. X^2 + X + 1
+7. 5X^5 + X^2 + X + 102
+8. 8X^3 + 17X^2 + 6X + 5
+
+(Pentru a selecta polinoamele de mai sus, tastati indicii asociati polinoamelor pe rand, in ordinea in care doriti sa efectuati operatia aleasa)
+
+Indicii tastati de catre dumneavoastra sunt: 1 6
+
+Polinomul X^2 + X + 1 este egal cu polinomul X^2 + X + 1
+
+
+Tastati Comanda: EGALE
+
+Selectati doua polinoame dintre cele de mai jos folosind indicii asociati:
+
+1. X^2 + X + 1
+2. 4X + 2
+3. - 15X^6 + 9X^5 + 6X^3 + 30X + 15
+4. 17
+5. 5X^5 + 101
+6. X^2 + X + 1
+7. 5X^5 + X^2 + X + 102
+8. 8X^3 + 17X^2 + 6X + 5
+
+(Pentru a selecta polinoamele de mai sus, tastati indicii asociati polinoamelor pe rand, in ordinea in care doriti sa efectuati operatia aleasa)
+
+Indicii tastati de catre dumneavoastra sunt: 2 7
+
+Polinomul 4X + 2 NU este egal cu polinomul 5X^5 + X^2 + X + 102
+
+
+Tastati Comanda: GRAD
+
+Selectati polinomul dorit folosind indicele asociat:
+
+1. X^2 + X + 1
+2. 4X + 2
+3. - 15X^6 + 9X^5 + 6X^3 + 30X + 15
+4. 17
+5. 5X^5 + 101
+6. X^2 + X + 1
+7. 5X^5 + X^2 + X + 102
+8. 8X^3 + 17X^2 + 6X + 5
+
+(Pentru a selecta unul dintre polinoamele de mai sus, tastati unul dintre indicii asociati polinoamelor)
+
+Indicele tastat de dumneavoastra este: 3
+
+Gradul polinomului - 15X^6 + 9X^5 + 6X^3 + 30X + 15 este: 6
+
+Tastati Comanda: NUMAR
+
+In total ati adaugat 8 polinoame.
+
+Tastati Comanda: PROD
+
+Selectati doua polinoame dintre cele de mai jos folosind indicii asociati:
+
+1. X^2 + X + 1
+2. 4X + 2
+3. - 15X^6 + 9X^5 + 6X^3 + 30X + 15
+4. 17
+5. 5X^5 + 101
+6. X^2 + X + 1
+7. 5X^5 + X^2 + X + 102
+8. 8X^3 + 17X^2 + 6X + 5
+
+(Pentru a selecta polinoamele de mai sus, tastati indicii asociati polinoamelor pe rand, in ordinea in care doriti sa efectuati operatia aleasa)
+
+Indicii tastati de catre dumneavoastra sunt: 3 4
+
+Produsul dintre polinomul - 15X^6 + 9X^5 + 6X^3 + 30X + 15 si polinomul 17 este egal cu polinomul - 255X^6 + 153X^5 + 102X^3 + 510X + 255
+
+Doriti sa adaugati acest produs ca fiind un nou polinom?(Tastati "DA" sau "NU") DA
+
+Felicitari! Ati adaugat acest produs cu succes!
+
+
+Tastati Comanda: SUB
+
+Selectati doua polinoame dintre cele de mai jos folosind indicii asociati:
+
+1. X^2 + X + 1
+2. 4X + 2
+3. - 15X^6 + 9X^5 + 6X^3 + 30X + 15
+4. 17
+5. 5X^5 + 101
+6. X^2 + X + 1
+7. 5X^5 + X^2 + X + 102
+8. 8X^3 + 17X^2 + 6X + 5
+9. - 255X^6 + 153X^5 + 102X^3 + 510X + 255
+
+(Pentru a selecta polinoamele de mai sus, tastati indicii asociati polinoamelor pe rand, in ordinea in care doriti sa efectuati operatia aleasa)
+
+Indicii tastati de catre dumneavoastra sunt: 9 4
+
+Scazand din polinomul - 255X^6 + 153X^5 + 102X^3 + 510X + 255 polinomul 17 obtinem - 255X^6 + 153X^5 + 102X^3 + 510X + 238
+
+Doriti sa adaugati aceasta diferenta ca fiind un nou polinom?(Tastati "DA" sau "NU") DA
+
+Felicitari! Ati adaugat aceasta diferenta cu succes!
+
+
+Tastati Comanda: VALUE
+
+Selectati polinomul dorit folosind indicele asociat:
+
+1. X^2 + X + 1
+2. 4X + 2
+3. - 15X^6 + 9X^5 + 6X^3 + 30X + 15
+4. 17
+5. 5X^5 + 101
+6. X^2 + X + 1
+7. 5X^5 + X^2 + X + 102
+8. 8X^3 + 17X^2 + 6X + 5
+9. - 255X^6 + 153X^5 + 102X^3 + 510X + 255
+10. - 255X^6 + 153X^5 + 102X^3 + 510X + 238
+
+(Pentru a selecta unul dintre polinoamele de mai sus, tastati unul dintre indicii asociati polinoamelor)
+
+Indicele tastat de dumneavoastra este: 9
+
+Tastati punctul dorit: 0
+Valoarea polinomului - 255X^6 + 153X^5 + 102X^3 + 510X + 255 in punctul X = 0 este: 255
+
+Tastati Comanda: DUPLICATE
+
+
+Doriti sa pastrati polinoamele care au duplicate si doar sa stergeti restul copiilor sau doriti sa le stergeti si pe ele inclusiv? (Tastati "DA" sau "NU") NU
+
+
+
+Toate duplicatele din lista au fost sterse. Lista dumneavoastra acum arata asa:
+
+1. 4X + 2
+2. - 15X^6 + 9X^5 + 6X^3 + 30X + 15
+3. 17
+4. 5X^5 + 101
+5. 5X^5 + X^2 + X + 102
+6. 8X^3 + 17X^2 + 6X + 5
+7. - 255X^6 + 153X^5 + 102X^3 + 510X + 255
+8. - 255X^6 + 153X^5 + 102X^3 + 510X + 238
+
+Tastati Comanda: STOP
+
+
+Process returned 0 (0x0)   execution time : 3.205 s
+Press any key to continue.
