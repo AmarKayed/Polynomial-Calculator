@@ -1,597 +1,826 @@
-#include<iostream>
-//#include<typeinfo>
+/*
+
+Pentru documentatia codului de mai jos am comentat fiecare sectiune cu un punct specific care se regaseste in documentul "README.txt".
+Ca sa vedeti detalii despre o anumita parte a codului de mai jos, folositi punctul asociat pentru a citi detaliile in documentia din "README.txt"
+Programul a fost scris si rulat in CodeBlocks.
+
+Detalii autor:
+
+Nume: Kayed Amar
+Grupa: 143
+Facultatea de Matematica si Informatica, anul universitar 2020 - 2021.
+
+*/
+
+
+#include<iostream>      // Punctul 1
+#include<cstring>
 
 using namespace std;
 
-class Polinom{
+class Polinom{          // Punctul 2
+
+    // Clasele au implicit specificatorul private, dar am ales sa-l scriu pentru usurinta citirii codului.
+
     private:
+
+    /// Atributele clasei           => Punctul 2.1
+
         int grad;
         float* coeficienti;
         Polinom* urmator;
 
+    /// Metodele clasei
+
+        /// Settere:                                                                                => Punctul 2.2
+
+        void set_grad(int grad);                                                                    // Punctul 2.2.1
+
+        void set_coeficienti(int grad, float* coeficienti);                                         // Punctul 2.2.2
+
+        inline void set_urmator(Polinom* nodul_urmator){this->urmator = nodul_urmator;}             // Punctul 2.2.3
+
+        void set_polinom(int grad, float* coeficienti, Polinom* urmator);                           // Punctul 2.2.4
+
+
     public:
-        // Constructori
 
-        Polinom(int grad_Polinom, float* v){
-            grad = grad_Polinom;
-            coeficienti = new float[grad+1];
-            for(int i = 0; i < grad_Polinom + 1 ;i++)
-                coeficienti[i] = v[i];
-        }
-        Polinom(int grad_polinom){
-            grad = grad_polinom;
-        }
-        // Settere
+        /// Constructori:                                                         => Punctul 2.3
 
-        void set_grad(int x){
-            grad = x;
-        }
-        void set_urmator(Polinom* x){
-            urmator = x;
-        }
-        void set_coeficienti(int grad_polinom){
-            coeficienti = new float[grad_polinom+1];
-        }
+        Polinom();                                                                // Punctul 2.3.1
 
+        Polinom(int grad);                                                        // Punctul 2.3.2
 
-        // Gettere
+        Polinom(int grad, float* coeficienti);                                    // Punctul 2.3.3
 
-        int get_grad(){
-            return grad;
-        }
+        Polinom(int grad, float* coeficienti, Polinom* nodul_urmator);            // Punctul 2.3.4
 
-        Polinom* get_urmator(){
-            return urmator;
-        }
-        float *get_coeficienti(){
-            return coeficienti;
-        }
-        float get_coeficient_i(int pozitie){
-            return coeficienti[pozitie];
-        }
+        Polinom(Polinom p, Polinom* nodul_urmator);                               // Punctul 2.3.5
 
+        /// Destructor:         => Punctul 2.4
 
+        ~Polinom();             // Punctul 2.4.1
 
-        // Metodele din cerinta(valoare,suma,diferenta,produs)
+        /// Gettere:            => Punctul 2.5
 
+        inline int get_grad(){return this->grad;}                                   // Punctul 2.5.1
 
-        float value(float n){
-            float s = 0,exponent=1;
-            for(int i=0;i<grad+1;i++)
-            {
-                for(int j = 1; j <= i ; j++)
-                    exponent = exponent*n;
-                s = s + coeficienti[i] * exponent;
-                exponent = 1;
-            }
-            return s;
-        }
+        inline float* get_coeficienti(){return this->coeficienti;}                  // Punctul 2.5.2
 
-        Polinom* sum(Polinom* x){
-            int* grad_maxim = new int;
-            int* grad_minim = new int;
+        inline float get_coeficient_k(int k){return (this->coeficienti)[k];}        // Punctul 2.5.3
 
-            int* i = new int(0);
+        inline Polinom* get_urmator(){return this->urmator;}                        // Punctul 2.5.4
 
-            // Stabilim gradul maxim si gradul minim dintre cele doua polinoame
+        /// Metodele cerute in cerinta:(DECLARAREA ACESTORA)    => Punctul 3
 
-            if(grad == x->get_grad()){
-                *grad_maxim = grad;
-                *grad_minim = grad;
-            }
-            else if(grad > x->get_grad()){
-                *grad_maxim = grad;
-                *grad_minim = x->get_grad();
-            }
-            else{
-                *grad_maxim = x->get_grad();
-                *grad_minim = grad;
-            }
-            // Acum ca am stabilit gradul maxim si gradul minim putem aloca dinamic coeficientilor sumei un spatiu de grad_maxim + 1 elemente
-            // si facem suma la primele grad_minim + 1 elemente, dupa care adaugam restul de grad_maxim - grad_minim + 1 elemente
+        float valoare(float punct);             // Punctul 3.1
 
-            float* vector_suma_coeficienti = new float[*grad_maxim + 1];
+        Polinom operator +(Polinom &p);         // Punctul 3.2
 
-            //cout<<"Grad Maxim: "<<*grad_maxim<<" Grad Minim: "<< *grad_minim<<"\n\n";
+        Polinom operator -(Polinom &p);         // Punctul 3.3
 
-            for(*i = 0; *i<*grad_minim + 1; *i=*i+1)
+        Polinom operator *(Polinom &p);         // Punctul 3.4
 
-                vector_suma_coeficienti[*i] = coeficienti[*i] + x->get_coeficient_i(*i);
-            if(*grad_maxim == grad) // daca gradul maxim este cel al polinomului din care apelam functia atunci folosim coeficienti[i] pentru a accesa coeficientii ramasi
-                while(*i < *grad_maxim + 1){
-                    vector_suma_coeficienti[*i] = coeficienti[*i];
-                    *i = *i+1;
-                }
-            else
-                while(*i < *grad_maxim + 1){
-                    vector_suma_coeficienti[*i] = x->get_coeficient_i(*i);
-                    *i = *i + 1;
-                }
-            // avem suma coeficientilor in *vector_suma_coeficienti si ne ramane doar sa creem obiectul de gradul *grad_maxim si coeficientii din vector_suma_coeficienti
+        /// CERINTE BONUS                   => Punctul 4
 
-            Polinom* suma_polinoamelor = new Polinom(*grad_maxim,vector_suma_coeficienti);
-            delete i;
-            //delete grad_maxim;
-            delete grad_minim;
-            //delete vector_suma_coeficienti;
+        bool operator ==(Polinom &p);       // Punctul 4.1
 
-            return suma_polinoamelor;
+        void operator +=(Polinom &p);       // Punctul 4.2
 
-        }
+        /// Metode utile pentru testarea codului:(Nu fac parte din cerinta. DECLARAREA ACESTORA)    => Punctul 5
 
-        Polinom* sub(Polinom* x){
-            int* grad_maxim = new int;
-            int* grad_minim = new int;
+        friend istream& operator >>(istream& in, Polinom& nod);     // Punctul 5.1
 
-            int* i = new int(0);
+        friend ostream& operator <<(ostream& out, Polinom& nod);    // Punctul 5.2
 
-            // Stabilim gradul maxim si gradul minim dintre cele doua polinoame
+        Polinom& operator =(Polinom &p);        // Punctul 5.3
 
-            if(grad == x->get_grad()){
-                *grad_maxim = grad;
-                *grad_minim = grad;
-            }
-            else if(grad > x->get_grad()){
-                *grad_maxim = grad;
-                *grad_minim = x->get_grad();
-            }
-            else{
-                *grad_maxim = x->get_grad();
-                *grad_minim = grad;
-            }
-            // Acum ca am stabilit gradul maxim si gradul minim putem aloca dinamic coeficientilor diferentei un spatiu de grad_maxim + 1 elemente
-            // si facem diferenta la primele grad_minim + 1 elemente, dupa care adaugam restul de grad_maxim - grad_minim + 1 elemente
-            // in functie de pozitionarea lor in functie de operatorul de scadere. Ex: 2x - 4x^2. Polinomul 1 este 2x iar polinomul 2 este 4x^2
-            // dar polinomul rezultant al diferentei va fi -4x^2 + 2x deci trebuie sa fim atenti la semne
-
-            float* vector_diferenta_coeficienti = new float[*grad_maxim + 1];
-
-            //cout<<"Grad Maxim: "<<*grad_maxim<<" Grad Minim: "<< *grad_minim<<"\n\n";
-
-            for(*i = 0; *i < *grad_minim + 1; *i=*i+1)
-
-                vector_diferenta_coeficienti[*i] = coeficienti[*i] - x->get_coeficient_i(*i);
-
-            if(*grad_maxim == grad) // daca gradul maxim este cel al polinomului din care apelam functia atunci folosim coeficienti[i] pentru a accesa coeficientii ramasi
-                while(*i < *grad_maxim + 1){
-                    vector_diferenta_coeficienti[*i] = coeficienti[*i];
-                    *i = *i+1;
-                }
-            else
-                while(*i < *grad_maxim + 1){
-                    vector_diferenta_coeficienti[*i] = (-1)*x->get_coeficient_i(*i);
-                    *i = *i + 1;
-                }
-            // avem suma coeficientilor in *vector_suma_coeficienti si ne ramane doar sa creem obiectul de gradul *grad_maxim si coeficientii din vector_suma_coeficienti
-
-            Polinom* diferenta_polinoamelor = new Polinom(*grad_maxim,vector_diferenta_coeficienti);
-            delete i;
-            //delete grad_maxim;
-            delete grad_minim;
-            //delete vector_diferenta_coeficienti;
-
-            return diferenta_polinoamelor;
-
-        }
-
-        Polinom* prod(Polinom* x){
-            float* vector_produs_coeficienti = new float[grad + x->get_grad() + 1];
-            int i,j;
-            for(i = 0; i < grad + x->get_grad()+1; i++)
-                vector_produs_coeficienti[i] = 0;      // initializam toti coeficientii cu 0
-
-            for(i = 0; i<grad+1; i++)
-                for(j = 0; j < x->get_grad() + 1; j++)
-                    vector_produs_coeficienti[i+j] = vector_produs_coeficienti[i+j] + (coeficienti[i] * x->get_coeficient_i(j));
-
-            Polinom* produsul_polinoamelor = new Polinom((grad + x->get_grad()),vector_produs_coeficienti);
-            delete vector_produs_coeficienti;
-            return produsul_polinoamelor;
-        }
-
-        // Metode ce nu fac parte din cerinta insa sunt folositoare pentru testarea codului
-
-        void afisare_polinom(){
-            int i=grad;
-            while(coeficienti[i] == 0 && i>=0){
-                i--;
-                grad--;
-            }
-            if(i == -1)
-                cout<<"0";  // cazul in care toti coeficientii sunt egali cu 0 => polinomul este 0
-            else if(i == 0)
-                cout<<coeficienti[0];  // cazul in care polinomul este de grad 0 singurul termen este termenul liber
-            else{
-                if(coeficienti[i] == 1)
-                    cout<<"X^"<<i;
-                else if(coeficienti[i] == -1)
-                    cout<<"-X^"<<i;
-                else
-                    cout<<coeficienti[i]<<"X^"<<i;
-                i--;
-
-                for(; i>=1; i--)
-                {
-                    if(coeficienti[i]){
-                        if(coeficienti[i]>0)
-                            cout<<" + ";
-                        if(coeficienti[i]!= 1 && coeficienti[i]!= -1)
-                            cout<<coeficienti[i]<<"X^"<<i;
-                        else if(coeficienti[i] == 1)
-                            cout<<"X^"<<i;
-                        else if(coeficienti[i] == -1)
-                            cout<<"- X^"<<i;
-                    }
-                }
-                if(coeficienti[0]>0)
-                    cout<<" + "<<coeficienti[0];
-                else if(coeficienti[0]<0)
-                    cout<<" "<<coeficienti[0];
-            }
-            //cout<<"\n";
-        }
-
-
+        void validare_atribute();               // Punctul 5.4
 };
 
-Polinom* cap = NULL;
+/// Settere:                => Punctul 2.2
 
-void adaugareLista(Polinom *x){
+void Polinom::set_grad(int grad){                   // Punctul 2.2.1
+    this->grad = grad;
+}
 
-    Polinom* i = cap;
-    x->set_urmator(NULL);
+void Polinom::set_coeficienti(int grad, float* coeficienti){            // Punctul 2.2.2
+    this->grad = grad;
+    if(this->coeficienti != NULL)
+        delete [] this->coeficienti;
+    this->coeficienti = new float[grad + 1];
+    for(int i = 0; i < grad + 1 ;i++)
+        (this->coeficienti)[i] = coeficienti[i];
+}
 
-    if(i == NULL)
-        cap = x;
+void Polinom::set_polinom(int grad, float* coeficienti, Polinom* urmator){          // Punctul 2.2.4
+    this->grad = grad;
+    if(this->coeficienti != NULL)
+        delete [] this->coeficienti;
+    this->coeficienti = new float[grad + 1];
+    for(int i = 0; i < grad + 1 ;i++)
+        (this->coeficienti)[i] = coeficienti[i];
+    this->urmator = urmator;
+}
+
+/// DEFINIREA CONSTRUCTORILOR DECLARATI IN CLASA        => Punctul 2.3
+
+Polinom::Polinom(){                                     // Punctul 2.3.1
+    this->coeficienti = NULL;
+    this->urmator = NULL;
+}
+
+Polinom::Polinom(int grad){                             // Punctul 2.3.2
+    this->grad = grad;
+    this->urmator = NULL;
+}
+
+Polinom::Polinom(int grad, float* coeficienti){         // Punctul 2.3.3
+    this->grad = grad;
+    this->coeficienti = new float[grad+1];
+    for(int i=0; i < grad+1; i++)
+        (this->coeficienti)[i] = coeficienti[i];
+    this->urmator = NULL;
+}
+
+Polinom::Polinom(int grad, float* coeficienti, Polinom* nodul_urmator){     // Punctul 2.3.4
+    this->grad = grad;
+    this->coeficienti = new float[grad+1];
+    for(int i = 0;i < grad+1; i++)
+        (this->coeficienti)[i] = coeficienti[i];
+    this->urmator = nodul_urmator;
+}
+
+Polinom::Polinom(Polinom p, Polinom* nodul_urmator){    // Punctul 2.3.5
+    this->grad = p.get_grad();
+    this->coeficienti = new float[this->get_grad()+1];
+    for(int i = 0;i < this->get_grad()+1; i++)
+        (this->coeficienti)[i] = p.get_coeficient_k(i);
+    this->urmator = nodul_urmator;
+}
+
+/// DESTRUCTOR:             => Punctul 2.4
+
+Polinom::~Polinom(){        // Punctul 2.4.1
+
+    //cout<<"\nS-a sters Polinomul \n"<<*this<<"\n\n";
+
+    if(this->coeficienti != NULL){
+        delete [] this->coeficienti;
+        this->coeficienti = NULL;       // Ne asiguram ca nu se mai sterge odata din greseala
+    }
+    /*
+    if(this->urmator != NULL){
+        delete this->urmator;
+        this->urmator = NULL;
+    }
+    */
+}
+
+/// Metodele cerute in cerinta:(DEFINIREA ACESTORA)             => Punctul 3
+
+float Polinom:: valoare(float punct){                           // Punctul 3.1
+    float suma = 0;
+    float exponent = 1;
+    for(int i = 0; i < this->get_grad() + 1; i++)
+    {
+        for(int j = 0; j < i ; j++)
+            exponent = exponent * punct;
+        suma = suma + this->get_coeficient_k(i)*exponent;
+        exponent = 1;
+    }
+    return suma;
+}
+
+Polinom Polinom::operator +(Polinom &p){                        // Punctul 3.2
+
+    // Se returneaza prin valoare si nu prin referinta, intrucat obiectul referentiat ar fi fost pe stiva si s-ar fi sters dupa oprirea subprogramului
+
+    int grad_maxim = max(this->get_grad(), p.get_grad());
+
+    float* suma_coeficienti = new float[grad_maxim + 1];
+
+    int i=0;
+
+    while(i < this->get_grad() + 1  &&  i < p.get_grad() + 1)       // <=> i < min(this->get_grad() + 1, p.get_grad() + 1)
+    {
+        suma_coeficienti[i] = this->get_coeficient_k(i) + p.get_coeficient_k(i);
+        i++;
+    }
+
+    while(i < this->get_grad() + 1){
+        suma_coeficienti[i] = this->get_coeficient_k(i);
+        i++;
+    }
+
+    while(i < p.get_grad() + 1){
+        suma_coeficienti[i] = p.get_coeficient_k(i);
+        i++;
+    }
+    Polinom Obiect_Nou(grad_maxim, suma_coeficienti);
+    Obiect_Nou.validare_atribute();
+    delete [] suma_coeficienti;
+    return Obiect_Nou;
+
+}
+
+Polinom Polinom:: operator -(Polinom &p){                       // Punctul 3.3
+
+    int grad_maxim = max(this->get_grad(), p.get_grad());
+
+    float* diferenta_coeficienti = new float[grad_maxim + 1];
+
+    int i=0;
+
+    while(i < this->get_grad() + 1  &&  i < p.get_grad() + 1)
+    {
+        diferenta_coeficienti[i] = this->get_coeficient_k(i) - p.get_coeficient_k(i);
+        i++;
+    }
+
+    while(i < this->get_grad() + 1){
+        diferenta_coeficienti[i] = this->get_coeficient_k(i);
+        i++;
+    }
+
+    while(i < p.get_grad() + 1){
+        diferenta_coeficienti[i] = (-1)*p.get_coeficient_k(i);
+        i++;
+    }
+    Polinom Obiect_Nou(grad_maxim, diferenta_coeficienti);
+    Obiect_Nou.validare_atribute();
+    delete [] diferenta_coeficienti;
+    return Obiect_Nou;
+
+}
+
+Polinom Polinom:: operator *(Polinom &p){                       // Punctul 3.4
+
+    int grad_produs = this->get_grad() + p.get_grad();
+
+    float* coeficienti_produs = new float[grad_produs + 1];
+
+    int i,j;
+
+    for(i = 0; i < grad_produs + 1; i++)     // initializam vectorul de coeficienti cu 0;
+        coeficienti_produs[i] = 0;
+
+    for(i=0;i < this->get_grad() + 1; i++)
+        for(j=0; j < p.get_grad() + 1; j++)
+            coeficienti_produs[i+j] = coeficienti_produs[i+j] + this->get_coeficient_k(i) * p.get_coeficient_k(j);
+
+    Polinom Obiect_Nou(grad_produs, coeficienti_produs);
+
+    Obiect_Nou.validare_atribute();
+
+    delete [] coeficienti_produs;
+
+    return Obiect_Nou;
+}
+
+
+/// Metoda BONUS                                                => Punctul 4
+
+bool Polinom::operator==(Polinom &p){                           // Punctul 4.1
+    if(this->get_grad() != p.get_grad())
+        return false;
+    for(int i = 0; i < this->get_grad() + 1; i++)
+        if(this->get_coeficient_k(i) != p.get_coeficient_k(i))
+            return false;
+    return true;
+}
+
+void Polinom::operator +=(Polinom& p){                          // Punctul 4.2
+    Polinom suma(*this + p,this->get_urmator());
+    *this = suma;
+}
+
+/// Metode utile pentru testarea codului:(Nu fac parte din cerinta. DEFINIREA ACESTORA)     => Punctul 5
+
+istream& operator >>(istream& in, Polinom& nod){            // Punctul 5.1
+    cout<<"Scrieti gradul polinomului: ";
+    float grad;
+    in>>grad;
+
+    while(grad<0 || int(grad) - grad != 0){
+        if(grad<0)
+            cout<<"Din definitia de pe Wikipedia, polinomii nu pot avea grad negativ, tastati un grad pozitiv va rog: ";
+        else cout<<"Gradul polinomului trebuie sa fie un numar natural, mai tastati odata gradul: ";
+        in>>grad;
+    }
+
+    cout<<"Scrieti coeficientii polinomului incepand cu termenul liber si pana la termenul de gradul "<<grad<<": ";
+
+    float* coeficienti = new float[int(grad)+1];
+
+    for(int i = 0; i<grad+1; i++)
+        in>>coeficienti[i];
+
+    cin.get();          // Eliberam Buffer-ul
+
+    Polinom Obiect_Intermediar(int(grad),coeficienti,nod.get_urmator());
+    Obiect_Intermediar.validare_atribute();
+    nod = Obiect_Intermediar;
+
+    delete [] coeficienti;
+
+    return in;
+}
+
+ostream& operator <<(ostream& out, Polinom& nod){           // Punctul 5.2
+
+    if(nod.get_grad() <= 0 && nod.get_coeficient_k(0) == 0)     // tratam cazul polinomului nul
+        out<<nod.get_coeficient_k(0);
+    else {
+        int i;
+        for(i=nod.get_grad(); i>=0; i--)
+            if(i == nod.get_grad() && i != 0 && i != 1){
+                if(nod.get_coeficient_k(i) == 1)
+                    out<<"X^"<<i<<" ";
+                else if(nod.get_coeficient_k(i) == -1)
+                    out<<"- X^"<<i<<" ";
+                else if(nod.get_coeficient_k(i)>0)
+                    out<<nod.get_coeficient_k(i)<<"X^"<<i<<" ";
+                else if(nod.get_coeficient_k(i)<0)
+                    out<<"- "<<(-1)*nod.get_coeficient_k(i)<<"X^"<<i<<" ";
+                // cazul in care nod.get_coeficient_k(i) == 0 este deja tratat de la primul while
+            }
+            else if(i == 1){
+                if(nod.get_coeficient_k(i)<0){
+                    if(nod.get_coeficient_k(i) == -1)
+                        out<<"- X ";
+                    else out<<"- "<<(-1)*nod.get_coeficient_k(i)<<"X ";
+                }
+                else if(nod.get_coeficient_k(i)>0){// am tratat toate cele 4 cazuri
+                    if(nod.get_coeficient_k(i) == 1 && i!=nod.get_grad())
+                        out<<"+ X ";
+                    else if(nod.get_coeficient_k(i) != 1 && i != nod.get_grad())
+                        out<<"+ "<<nod.get_coeficient_k(i)<<"X ";
+                    else if(nod.get_coeficient_k(i) == 1 && i == nod.get_grad())
+                        out<<"X ";
+                    else if(nod.get_coeficient_k(i) != 1 && i == nod.get_grad())
+                        out<<nod.get_coeficient_k(i)<<"X ";
+                }
+            }
+            else if(i == 0 && i != nod.get_grad()){
+                if(nod.get_coeficient_k(0)>0)
+                    out<<"+ "<<nod.get_coeficient_k(0);
+                else if(nod.get_coeficient_k(0)<0)
+                    out<<"- "<<(-1)*nod.get_coeficient_k(0);
+            }
+            else if(i == 0 && i == nod.get_grad())
+                out<<nod.get_coeficient_k(0);
+            else if(nod.get_coeficient_k(i) == -1)
+                out<<"- X^"<<i<<" ";
+            else if(nod.get_coeficient_k(i) == 1)
+                out<<"+ X^"<<i<<" ";
+            else if(nod.get_coeficient_k(i)>0)
+                out<<"+ "<<nod.get_coeficient_k(i)<<"X^"<<i<<" ";
+            else if(nod.get_coeficient_k(i)<0)
+                out<<"- "<<(-1)*nod.get_coeficient_k(i)<<"X^"<<i<<" ";
+    }
+
+    return out;
+}
+
+Polinom& Polinom::operator =(Polinom& p){                   // Punctul 5.3
+    this->grad = p.get_grad();
+    if(this->coeficienti!=NULL)
+        delete [] coeficienti;
+    this->coeficienti = new float[p.get_grad() + 1];
+    for(int i=0;i < p.get_grad() + 1; i++)
+        (this->coeficienti)[i] = p.get_coeficient_k(i);
+    this->urmator = p.get_urmator();
+    return *this;
+}
+
+void Polinom::validare_atribute(){                          // Punctul 5.4                                             // Punctul 5.4
+    int ok=0;
+    while(this->get_grad() > 0 && this->get_coeficient_k(this->get_grad()) == 0){
+        this->grad = this->grad - 1;
+        ok++;
+    }
+    if(ok){
+        float *coeficienti_noi = new float[this->grad + 1];
+        int i;
+        for(i=0; i < this->grad + 1; i++)
+            coeficienti_noi[i] = this->get_coeficient_k(i);
+        delete [] this->coeficienti;
+        this->coeficienti = new float[this->grad + 1];
+        for(i=0; i < this->grad + 1;i++)
+            (this->coeficienti)[i] = coeficienti_noi[i];
+        delete [] coeficienti_noi;
+    }
+}
+
+/// Functii pentru prelucrarea listelor:    => Punctul 6
+
+
+void adaugare_nod_in_lista(Polinom* (&cap), Polinom &nod){                  // Punctul 6.1
+    // "nod" pointeaza deja la NULL (l-am initializat in declaratie)
+    if(cap == NULL)
+        cap = &nod;
     else{
+        Polinom* i = cap;
+
         while(i->get_urmator() != NULL)
             i = i->get_urmator();
 
-        i->set_urmator(x);
+        // in pointerul i avem ultimul nod al listei. Dorim sa facem ca acest nod sa pointeze catre nodul pe care vrem sa-l adaugam
+        Polinom Obiect_Intermediar(i->get_grad(), i->get_coeficienti(), &nod);
+        // Obiect_Intermediar a copiat tot ce era in i cu exceptia ca Obiect_Intermediar pointeaza catre nodul pe care vrem sa-l adaugam
+        *i = Obiect_Intermediar;
     }
-
 }
 
-void afisareLista(){
-    Polinom *i = cap;
-    int *j = new int(1);
-    while(i!=NULL){
-        //cout<<i->get_grad()<<" ";
-        cout<<*j<<". ";
-        i->afisare_polinom();
-        cout<<"\n";
-        i = i->get_urmator();
-        *j = *j+1;
+void afisare_noduri_lista(Polinom* (&cap)){                    // Punctul 6.2
+
+    if(cap == NULL)
+        cout<<"Lista vida.\n";
+    else{
+        int indice = 1;
+        Polinom* i = cap;
+        while(i != NULL){
+            cout << indice << ". " << *i << "\n";
+            indice++;
+            i = i->get_urmator();
+        }
     }
-    delete j;
-    cout<<"\n";
 }
-int lungimeLista(){
-    Polinom *i=cap;
+
+int lungime_lista(Polinom* (&cap)){                 // Punctul 6.3
     int lungime = 0;
-    while(i!=NULL){
-        lungime = lungime + 1;
-        i=i->get_urmator();
+    Polinom* i = cap;
+    while(i != NULL){
+        lungime++;
+        i = i->get_urmator();
     }
     return lungime;
 }
 
-void stergereNod(Polinom* x){
-    if(cap == x){
-        cap = x->get_urmator();
-        delete x;
+void stergere_nod_din_lista(Polinom* (&cap), int indice){            // Punctul 6.4
+    if(lungime_lista(cap) == 1){
+        cap = NULL;
     }
+    else if(indice == 1)
+        cap = cap->get_urmator();
     else{
+        Polinom* nod_curent = cap;
+        Polinom* nod_anterior = nod_curent;
+        int j = 1;
+
+        while(nod_curent != NULL){
+            if(j == indice)
+                break;
+            j++;
+            nod_anterior = nod_curent;
+            nod_curent = nod_curent->get_urmator();
+
+        }
+
+        Polinom Obiect_Nou(nod_anterior->get_grad(),nod_anterior->get_coeficienti(),nod_curent->get_urmator()); // Cream un obiect nou care sa pointeze catre nodul imediat urmator celui pe care vrem sa-l stergem
+        // initializam acest obiect nou astfel incat sa aibe toate proprietatile nodului anterior celui pe care vrem sa-l stergem
+
+        *nod_anterior = Obiect_Nou;
+
+        //acum nodul anterior are exact aceleasi proprietati ca inainte, cu exceptia ca pointeaza direct la nodul de dupa cel pe care l-am sters
+
+    }
+    /// Obiectele pe care le "stergem" ataunci cand nu mai pointam catre ele vor fi sterse automat cand se elibereaza stiva din primul apel al functiei rulare_program(a fost apelata in main), fiind sterse de destructor.
+}
+
+void stergere_duplicate_din_lista(Polinom* (&cap),int &caz){            // Punctul 6.5
+    if(lungime_lista(cap)<=1)
+        cout<<"Nu exista destule noduri in lista astfel incat sa existe duplicate.\n";
+    else{
+
         Polinom* i = cap;
-        Polinom* anterior = i;
-
-        while(i!= x && i!=NULL){
-            anterior = i;
+        int indice_i = 1,indice_j = 2, ok = 0, lungime = lungime_lista(cap);
+        while(i != NULL && indice_i<=lungime){
+            indice_j = indice_i + 1;
+            Polinom* j = i->get_urmator();
+            while(j != NULL && indice_j<=lungime){
+                if(*i == *j && indice_j<=lungime){
+                    stergere_nod_din_lista(cap, indice_j);
+                    indice_j--;
+                    lungime--;
+                    ok++;
+                }
+                j = j->get_urmator();
+                indice_j++;
+            }
+            if(caz == 2 && ok != 0){
+                stergere_nod_din_lista(cap, indice_i);
+                indice_i--;
+                lungime--;
+            }
             i = i->get_urmator();
+            indice_i++;
+            ok = 0;
         }
-        anterior->set_urmator(i->get_urmator());
-        delete i;
-        //delete x; // Practic x a fost sters atunci cand am sters i
     }
 }
 
-Polinom* cautareNod(int indice){
+void selectare_indici_polinoame(int numar_indici_de_selectat, float* (&vector_de_indici), Polinom* (&cap)){         // Punctul 6.6
+    int lungimea_listei = lungime_lista(cap);
+    if(lungimea_listei == 0 || (lungimea_listei == 1 && numar_indici_de_selectat == 2)){
+        cout<<"Nu aveti destule polinoame pentru a efectua aceasta operatie. Pentru a adauga polinoame folositi comanda ADD.\n";
+        vector_de_indici[0] = -1; // folosim -1 ca sa indicam ca aceasta operatie nu este disponibila inca.
+    }
+    else {
+        if(numar_indici_de_selectat == 1){
+            cout<<"Selectati polinomul dorit folosind indicele asociat:\n\n";
+            afisare_noduri_lista(cap);
+            cout<<"\n(Pentru a selecta unul dintre polinoamele de mai sus, tastati unul dintre indicii asociati polinoamelor)\n\n";
+            cout<<"Indicele tastat de dumneavoastra este: ";
+        }
+        else{
+            cout<<"Selectati doua polinoame dintre cele de mai jos folosind indicii asociati:\n\n";
+            afisare_noduri_lista(cap);
+            cout<<"\n(Pentru a selecta polinoamele de mai sus, tastati indicii asociati polinoamelor pe rand, in ordinea in care doriti sa efectuati operatia aleasa)\n\n";
+            cout<<"Indicii tastati de catre dumneavoastra sunt: ";
+        }
+
+        int ok = 0;
+
+        for(int i = 0; i < numar_indici_de_selectat; i++)
+            {
+                cin>>vector_de_indici[i];
+                if(vector_de_indici[i] < 1 || vector_de_indici[i] > lungimea_listei || int(vector_de_indici[i]) - vector_de_indici[i] != 0)
+                    ok++;
+            }
+        cout<<"\n";
+        while(ok != 0){
+            ok = 0;
+            cout<<"Multimea de indici pe care ati tastat-o nu apartine intervalului de indici INTREGI din intervalul [1, " << lungimea_listei<<"]. Va rog sa mai tastati odata: ";
+            for(int i = 0; i < numar_indici_de_selectat; i++)
+                {
+                    cin>>vector_de_indici[i];
+                    if(vector_de_indici[i] < 1 || vector_de_indici[i] > lungimea_listei || int(vector_de_indici[i]) - vector_de_indici[i] != 0)
+                        ok++;
+                }
+        }
+    }
+    return ;
+}
+
+Polinom& cautare_nod_in_lista(Polinom* (&cap),int indice){      // Punctul 6.7
     Polinom* i = cap;
-    int j=1;
-
-    while(i!=NULL && j<indice){
-        i = i->get_urmator();
+    int j = 1;
+    while(i != NULL && j<indice){
         j++;
+        i = i->get_urmator();
     }
-    return i;
+    return *i;
 }
 
-int selectareIndice(){
-    if(cap == NULL){
-        cout<<"Nu ati adaugat niciun polinom pana acum. Folositi comanda ADD pentru a adauga polinoame.\n";
-        return -1;
+void intrebare_adaugare_polinom(int indice,Polinom &obiect_de_adaugat,Polinom* (&cap)){     // Punctul 6.8
+    char raspuns[1000];
+    char caz_de_afisat[100];
+    if(indice == 1)
+        strcpy(caz_de_afisat, "aceasta suma");
+    else if(indice == 2)
+        strcpy(caz_de_afisat, "aceasta diferenta");
+    else if(indice == 3)
+        strcpy(caz_de_afisat, "acest produs");
+
+    cout<<"Doriti sa adaugati "<<caz_de_afisat<<" ca fiind un nou polinom?(Tastati \"DA\" sau \"NU\") ";
+    cin.getline(raspuns, 1000);
+    cout<<"\n";
+    while(strcmp(raspuns,"DA") !=0 && strcmp(raspuns, "NU") !=0){
+        cout<<"Raspunsul dumneavoastra este invalid, mai incercati odata:(Tastati \"DA\" sau \"NU\") ";
+        cin.getline(raspuns, 1000);
+        cout<<"\n";
     }
-    else{
-        afisareLista();
-        cout<<"Selectati unul dintre polinoamele de mai sus folosind indicele indicat: ";
-        int* indice = new int;
-        cin>>*indice;
-        int* lungime = new int(lungimeLista());
-        while(*indice<1 || *indice> *lungime){
-            if(*indice < 1)
-                cout<<"Indicele tastat este prea mic.\n";
-            else if(*indice > *lungime)
-                cout<<"Indicele tastat este prea mare.\n";
-            cout<<"Tastati alt indice: ";
-            cin>>*indice;
-        }
-    return *indice;
+    if(strcmp(raspuns, "DA") == 0){
+        adaugare_nod_in_lista(cap, obiect_de_adaugat);
+        cout<<"Felicitari! Ati adaugat "<< caz_de_afisat<<" cu succes!\n\n";
     }
+    else if(strcmp(raspuns, "NU") == 0)
+        cout<<"Polinomul a fost sters cu succes\n\n";
+
 }
 
-void rulare_program(){
-    string* instructiune = new string;
-    cout<<"\nTastati comanda: ";
-    cin>>*instructiune;
+/// Functie pentru rularea programului:     => Punctul 7
 
-    if(*instructiune == "ADD"){
-        cout<<"Scrieti gradul polinomului: ";
-        int* grad = new int;
-        cin>>*grad;
+void rulare_program(Polinom* cap){  // Punctul 7.1
 
-        cout<<"Scrieti coeficientii polinomului incepand cu termenul liber si pana la termenul de gradul "<<*grad<<": ";
-        float* v = new float[*grad+1];
-        for(int i = 0; i<*grad+1; i++)
-            cin>>v[i];
+    char comanda[1000];
 
-        Polinom* obiect = new Polinom(*grad,v);
+    cout<<"\nTastati Comanda: ";
 
-        adaugareLista(obiect);
-        //cout<<typeid(*obiect).name()<<" "<<typeid(nou).name()<<" "<<typeid(obiect).name()<<"\n";
+    cin.getline(comanda, 1000);
 
+    cout<<"\n";
+
+    if(strcmp(comanda,"ADD") == 0){                     // Punctul 7.2
+        Polinom Obiect_Nou;         // Constructorul implicit initializeaza pointerii "coeficienti" si "urmator" cu NULL
+        cin>>Obiect_Nou;
+        adaugare_nod_in_lista(cap, Obiect_Nou);
         cout<<"Felicitari! Polinomul a fost adaugat cu succes.\n";
-
+        rulare_program(cap);
     }
-
-    else if(*instructiune == "DELETE"){
-        int* indice = new int(selectareIndice());
-        if(*indice!=-1){
-            stergereNod(cautareNod(*indice));
-            cout<<"Polinomul a fost sters cu succes!\n";
+    else if(strcmp(comanda,"DELETE") == 0){             // Punctul 7.3
+        float* indicii_de_tastat = new float[1];                // NU SE POATE FARA ALOCARE DINAMICA, DA EROARE ATUNCI CAND TRANSMIT CA PARAMETRU
+        selectare_indici_polinoame(1,indicii_de_tastat,cap);
+        if(indicii_de_tastat[0] != -1){
+            stergere_nod_din_lista(cap,int(indicii_de_tastat[0]));
+            cout<<"Felicitari! Polinomul a fost sters cu succes.\n";
+            cin.get(); // Eliberam buffer-ul
         }
-        delete indice;
+        delete [] indicii_de_tastat;
+        rulare_program(cap);
     }
-
-    else if(*instructiune == "SUM"){
-        if(lungimeLista()<2)
-            cout<<"Nu ati adaugat suficiente polinoame astfel incat sa realizati o suma. Daca doriti sa adaugati un polinom folositi comanda ADD\n";
+    else if(strcmp(comanda,"SUM") == 0){                // Punctul 7.4
+        float* indicii_de_tastat = new float[2];
+        selectare_indici_polinoame(2,indicii_de_tastat,cap);
+        if(indicii_de_tastat[0] != -1){
+            Polinom &p1 = cautare_nod_in_lista(cap, int(indicii_de_tastat[0]));
+            Polinom &p2 = cautare_nod_in_lista(cap, int(indicii_de_tastat[1]));
+            Polinom p3 = p1 + p2;
+            cout<<"Suma dintre polinomul "<<p1<<" si polinomul "<<p2<<" este: "<< p3 << "\n\n";
+            cin.get(); // Pentru a elibera buffer-ul
+            intrebare_adaugare_polinom(1,p3,cap);
+            delete [] indicii_de_tastat;
+            rulare_program(cap);
+        }
         else{
-            afisareLista();
-            cout<<"Selectati doua polinoame dintre cele de mai sus folosind indicii: ";
-            int *indice_1 = new int, *indice_2 = new int;
-
-            cin>>*indice_1>>*indice_2;
-
-            int* lungime = new int(lungimeLista());
-
-            while(*indice_1 > *lungime || *indice_2 > *lungime || *indice_1 < 1 || *indice_2 < 1){
-                cout<<"Perechea de indici tastata nu apartine intervalului de indici [1, "<<*lungime<<"].\n";
-                cout<<"Mai tastati odata indicii: ";
-                cin>>*indice_1>>*indice_2;
-            }
-
-            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-            Polinom* obiect_nou = cautareNod(*indice_1)->sum(cautareNod(*indice_2)); // apeleaza metoda sum al celui de-al indice_1 nod al listei si transmite ca parametru al sumei cel de-al indice_2 nod al listei.
-
-            cout<<"Suma polinomului ";
-            cautareNod(*indice_1)->afisare_polinom();
-            cout<<" cu polinomul ";
-            cautareNod(*indice_2)->afisare_polinom();
-            cout<<" este:\n";
-            obiect_nou->afisare_polinom();
-            cout<<"\n\n";
-
-            cout<<"Doriti sa adaugati aceasta suma ca fiind un nou polinom?(Tastati \"DA\" sau \"NU\")\n";
-
-            string* raspuns = new string;
-
-            cin>>*raspuns;
-            cout<<"\n";
-            while(*raspuns != "DA" && *raspuns != "NU"){
-                cout<<"Raspunsul dumneavoastra este invalid. Mai incercati odata: ";
-                cin>>*raspuns;
-            }
-            if(*raspuns == "DA"){
-                adaugareLista(obiect_nou);
-                cout<<"Felicitari! Polinomul a fost adaugat cu succes.\n";
-            }
-            else{
-                delete obiect_nou;
-                cout<<"Polinomul a fost sters cu succes!\n";
-            }
-            delete raspuns;
-            delete indice_1;
-            delete indice_2;
-            delete lungime;
+            delete [] indicii_de_tastat;
+            rulare_program(cap);
         }
     }
-
-    else if(*instructiune == "SUB"){
-        if(lungimeLista()<2)
-            cout<<"Nu ati adaugat suficiente polinoame astfel incat sa realizati o diferenta. Daca doriti sa adaugati un polinom folositi comanda ADD\n";
+    else if(strcmp(comanda, "SUM REPLACE") == 0){               // Punctul 7.5
+        float* indicii_de_tastat = new float[2];
+        selectare_indici_polinoame(2,indicii_de_tastat,cap);
+        if(indicii_de_tastat[0] != -1){
+            Polinom &p1 = cautare_nod_in_lista(cap, int(indicii_de_tastat[0]));
+            Polinom &p2 = cautare_nod_in_lista(cap, int(indicii_de_tastat[1]));
+            cout<<"Suma dintre polinomul "<<p1<<" si polinomul "<<p2<<" este: ";
+            p1+=p2;
+            cout<< p1 << "\n\n";
+            cin.get(); // Pentru a elibera buffer-ul
+            delete [] indicii_de_tastat;
+            rulare_program(cap);
+        }
         else{
-            afisareLista();
-            cout<<"Selectati doua polinoame dintre cele de mai sus folosind indicii: ";
-            int *indice_1 = new int, *indice_2 = new int;
-
-            cin>>*indice_1>>*indice_2;
-
-            int* lungime = new int(lungimeLista());
-
-            while(*indice_1 > *lungime || *indice_2 > *lungime || *indice_1 < 1 || *indice_2 < 1){
-                cout<<"Perechea de indici tastata nu apartine intervalului de indici [1, "<<*lungime<<"].\n";
-                cout<<"Mai tastati odata indicii: ";
-                cin>>*indice_1>>*indice_2;
-            }
-
-
-            Polinom* obiect_nou = cautareNod(*indice_1)->sub(cautareNod(*indice_2)); // apeleaza metoda sub al celui de-al indice_1 nod al listei si transmite ca parametru al diferentei cel de-al indice_2 nod al listei.
-
-            cout<<"Scaderea polinomului ";
-            cautareNod(*indice_2)->afisare_polinom();
-            cout<<" din polinomul ";
-            cautareNod(*indice_1)->afisare_polinom();
-            cout<<" va avea ca rezultat polinomul:\n";
-            obiect_nou->afisare_polinom();
-            cout<<"\n\n";
-
-            cout<<"Doriti sa adaugati aceasta diferenta ca fiind un nou polinom?(Tastati \"DA\" sau \"NU\")\n";
-
-            string* raspuns = new string;
-
-            cin>>*raspuns;
-            cout<<"\n";
-            while(*raspuns != "DA" && *raspuns != "NU"){
-                cout<<"Raspunsul dumneavoastra este invalid. Mai incercati odata: ";
-                cin>>*raspuns;
-            }
-            if(*raspuns == "DA"){
-                adaugareLista(obiect_nou);
-                cout<<"Felicitari! Polinomul a fost adaugat cu succes.\n";
-            }
-            else{
-                delete obiect_nou;
-                cout<<"Polinomul a fost sters cu succes!\n";
-            }
-            delete raspuns;
-            delete indice_1;
-            delete indice_2;
-            delete lungime;
+            delete [] indicii_de_tastat;
+            rulare_program(cap);
         }
     }
-    else if(*instructiune == "PROD"){
-        if(lungimeLista()<2)
-            cout<<"Nu ati adaugat suficiente polinoame astfel incat sa realizati un produs de polinoame. Daca doriti sa adaugati un polinom folositi comanda ADD\n";
+    else if(strcmp(comanda,"SUB") == 0){                        // Punctul 7.6
+        float* indicii_de_tastat = new float[2];
+        selectare_indici_polinoame(2,indicii_de_tastat,cap);
+        if(indicii_de_tastat[0] != -1){
+            Polinom &p1 = cautare_nod_in_lista(cap, int(indicii_de_tastat[0]));
+            Polinom &p2 = cautare_nod_in_lista(cap, int(indicii_de_tastat[1]));
+            Polinom p3 = p1 - p2;
+            cout<<"Scazand din polinomul "<<p1<<" polinomul "<<p2<<" obtinem "<< p3 << "\n\n";
+            cin.get(); // Pentru a elibera buffer-ul
+            intrebare_adaugare_polinom(2,p3,cap);
+            delete [] indicii_de_tastat;
+            rulare_program(cap);
+        }
         else{
-            afisareLista();
-            cout<<"Selectati doua polinoame dintre cele de mai sus folosind indicii: ";
-            int *indice_1 = new int, *indice_2 = new int;
-
-            cin>>*indice_1>>*indice_2;
-
-            int* lungime = new int(lungimeLista());
-
-            while(*indice_1 > *lungime || *indice_2 > *lungime || *indice_1 < 1 || *indice_2 < 1){
-                cout<<"Perechea de indici tastata nu apartine intervalului de indici [1, "<<*lungime<<"].\n";
-                cout<<"Mai tastati odata indicii: ";
-                cin>>*indice_1>>*indice_2;
-            }
-
-
-            Polinom* obiect_nou = cautareNod(*indice_1)->prod(cautareNod(*indice_2)); // apeleaza metoda sub al celui de-al indice_1 nod al listei si transmite ca parametru al diferentei cel de-al indice_2 nod al listei.
-
-            cout<<"Produsul dintre polinomului ";
-            cautareNod(*indice_1)->afisare_polinom();
-            cout<<" si polinomul ";
-            cautareNod(*indice_2)->afisare_polinom();
-            cout<<" este:\n";
-            obiect_nou->afisare_polinom();
-            cout<<"\n\n";
-
-            cout<<"Doriti sa adaugati acest produs de polinoame ca fiind un nou polinom?(Tastati \"DA\" sau \"NU\")\n";
-
-            string* raspuns = new string;
-
-            cin>>*raspuns;
-            cout<<"\n";
-            while(*raspuns != "DA" && *raspuns != "NU"){
-                cout<<"Raspunsul dumneavoastra este invalid. Mai incercati odata: ";
-                cin>>*raspuns;
-            }
-            if(*raspuns == "DA"){
-                adaugareLista(obiect_nou);
-                cout<<"Felicitari! Polinomul a fost adaugat cu succes.\n";
-            }
-            else{
-                delete obiect_nou;
-                cout<<"Polinomul a fost sters cu succes!\n";
-            }
-            delete raspuns;
-            delete indice_1;
-            delete indice_2;
-            delete lungime;
+            delete [] indicii_de_tastat;
+            rulare_program(cap);
         }
     }
-
-    else if(*instructiune == "VALUE"){
-        int* indice = new int(selectareIndice());
-        if(*indice!=-1){
-            float* punct = new float;
+    else if(strcmp(comanda,"PROD") == 0){                       // Punctul 7.7
+        float* indicii_de_tastat = new float[2];
+        selectare_indici_polinoame(2,indicii_de_tastat,cap);
+        if(indicii_de_tastat[0] != -1){
+            Polinom &p1 = cautare_nod_in_lista(cap, int(indicii_de_tastat[0]));
+            Polinom &p2 = cautare_nod_in_lista(cap, int(indicii_de_tastat[1]));
+            Polinom p3 = p1 * p2;
+            cout<<"Produsul dintre polinomul "<<p1<<" si polinomul "<<p2<<" este egal cu polinomul "<< p3 << "\n\n";
+            cin.get(); // Pentru a elibera buffer-ul
+            intrebare_adaugare_polinom(3,p3,cap);
+            delete [] indicii_de_tastat;
+            rulare_program(cap);
+        }
+        else{
+            delete [] indicii_de_tastat;
+            rulare_program(cap);
+        }
+    }
+    else if(strcmp(comanda,"VALUE") == 0){                      // Punctul 7.8
+        float* indicii_de_tastat = new float[1];
+        selectare_indici_polinoame(1,indicii_de_tastat,cap);
+        if(indicii_de_tastat[0] != -1){
             cout<<"Tastati punctul dorit: ";
-            cin>>*punct;
-            Polinom *obiect = cautareNod(*indice);
-            cout<<"\nValoarea polinomului "<<*indice<<" pentru punctul "<<*punct<<" este: "<<obiect->value(*punct)<<"\n";
-            delete indice;
-            delete punct;
+            float punct;
+            cin >> punct;
+            Polinom &Obiectul_Selectat = cautare_nod_in_lista(cap,int(indicii_de_tastat[0]));
+            cout << "Valoarea polinomului " << Obiectul_Selectat << " in punctul X = " << punct << " este: ";
+            cout<< Obiectul_Selectat.valoare(punct)<<"\n";
+            cin.get(); // Pentru a elibera buffer-ul
+            delete [] indicii_de_tastat;
+            rulare_program(cap);
         }
-        delete indice;
+        else{
+            delete [] indicii_de_tastat;
+            rulare_program(cap);
+        }
     }
-
-    else if(*instructiune == "TOTAL"){
-        if(cap == NULL)
-            cout<<"Nu ati adaugat niciun polinom pana acum. Folositi comanda ADD pentru a adauga polinoame.\n";
-        else
-            afisareLista();
+    else if(strcmp(comanda, "DUPLICATE") == 0){                 // Punctul 7.9
+        cout<<"\nDoriti sa pastrati polinoamele care au duplicate si doar sa stergeti restul copiilor sau doriti sa le stergeti si pe ele inclusiv? (Tastati \"DA\" sau \"NU\") ";
+        char raspuns[100];
+        cin.getline(raspuns,100);
+        cout<<"\n";
+        while(strcmp(raspuns,"DA") !=0 && strcmp(raspuns, "NU") !=0){
+            cout<<"Raspunsul dumneavoastra este invalid, mai incercati odata:(Tastati \"DA\" sau \"NU\") ";
+            cin.getline(raspuns, 100);
+            cout<<"\n";
+        }
+        int caz;
+        if(strcmp(raspuns, "DA") == 0)
+            caz = 1;
+        else if (strcmp(raspuns, "NU") == 0)
+            caz = 2;
+        stergere_duplicate_din_lista(cap,caz);
+        cout<<"\n\nToate duplicatele din lista au fost sterse. Lista dumneavoastra acum arata asa:\n\n";
+        afisare_noduri_lista(cap);
+        rulare_program(cap);
     }
-
-    else if(*instructiune == "STOP")
-    {
-        delete instructiune;
+    else if(strcmp(comanda,"TOTAL") == 0){              // Punctul 7.10
+        afisare_noduri_lista(cap);
+        rulare_program(cap);
+    }
+    else if(strcmp(comanda,"NUMAR") == 0){              // Punctul 7.11
+        cout<<"In total ati adaugat "<<lungime_lista(cap)<<" polinoame.\n";
+        rulare_program(cap);
+    }
+    else if(strcmp(comanda, "GRAD") == 0){              // Punctul 7.12
+        float* indicii_de_tastat = new float[1];
+        selectare_indici_polinoame(1,indicii_de_tastat,cap);
+        if(indicii_de_tastat[0] != -1){
+            Polinom &Obiectul_Ales = cautare_nod_in_lista(cap, int(indicii_de_tastat[0]));
+            cout<<"Gradul polinomului " << Obiectul_Ales<<" este: "<< Obiectul_Ales.get_grad()<<"\n";
+            cin.get(); // Pentru a elibera buffer-ul
+            delete [] indicii_de_tastat;
+            rulare_program(cap);
+        }
+        else{
+            delete [] indicii_de_tastat;
+            rulare_program(cap);
+        }
+    }
+    else if(strcmp(comanda, "EGALE") == 0){                     // Punctul 7.13
+        float* indicii_de_tastat = new float[2];
+        selectare_indici_polinoame(2,indicii_de_tastat,cap);
+        if(indicii_de_tastat[0] != -1){
+            Polinom &p1 = cautare_nod_in_lista(cap, int(indicii_de_tastat[0]));
+            Polinom &p2 = cautare_nod_in_lista(cap, int(indicii_de_tastat[1]));
+            cout<<"Polinomul " << p1;
+            if(!(p1 == p2))
+                cout<<" NU";
+            cout<<" este egal cu polinomul " << p2<<"\n\n";
+            cin.get(); // Pentru a elibera buffer-ul
+            delete [] indicii_de_tastat;
+            rulare_program(cap);
+        }
+        else{
+            delete [] indicii_de_tastat;
+            rulare_program(cap);
+        }
+    }
+    else if(strcmp(comanda,"STOP") == 0){               // Punctul 7.14
         return;
     }
     else{
-        cout<<"\nComanda gresita! Va rog sa mai incercati odata:\n";
+        cout<<"\nComanda tastata nu reprezinta una dintre comenzile prezentate in antetul consolei.\n";
+        cout<<"Mai incercati odata, va rog.\n";
+        rulare_program(cap);
     }
-    delete instructiune;
-    rulare_program();
 }
 
-
+/// main-ul:                => Punctul 8
 
 int main(){
-    /*
-    Polinom a(2),b(3),c(15),d(122),e(100),f(-23);
-
-    cap = &a;
-    a.set_urmator(&b);
-    b.set_urmator(&c);
-    c.set_urmator(NULL);
-
-    adaugareLista(&d);
-    Polinom *obiect = new Polinom(1002);
-
-    adaugareLista(obiect);
-
-    afisareLista();
-
-    */
-
 
     cout<<"\t\t\tBINE ATI VENIT!\n\n";
     cout<<"\t\tComenzile acestui program sunt:\n\n";
     cout<<"\t-ADD pentru a adauga un polinom\n";
     cout<<"\t-DELETE pentru a sterge un polinom\n";
     cout<<"\t-SUM pentru a insuma doua polinoame\n";
+    cout<<"\t-SUM REPLACE pentru a insuma doua polinoame si a memora rezultatul in primul polinom\n";
     cout<<"\t-SUB pentru a scadea doua polinoame\n";
     cout<<"\t-PROD pentru a inmulti doua polinoame\n";
     cout<<"\t-VALUE pentru a calcula valoarea polinomului intr-un punct\n";
+    cout<<"\t-DUPLICATE pentru a sterge toate polinoamele care sunt duplicate in cadrul listei de polinoame\n";
     cout<<"\t-TOTAL pentru a afisa toate polinoamele introduse pana acum\n";
+    cout<<"\t-NUMAR pentru a afisa doar numarul de polinoame introduse pana acum\n";
+    cout<<"\t-GRAD pentru a afisa gradul unui polinom adaugat\n";
+    cout<<"\t-EGALE pentru a afisa daca doua polinoame adaugate sunt egale sau nu\n";
     cout<<"\t-STOP pentru a opri programul";
     cout<<"\n\n";
 
-    rulare_program();
+    Polinom *cap = NULL;
+
+    rulare_program(cap);
+
+    if(cap != NULL)
+        delete cap;
 
     return 0;
 }
